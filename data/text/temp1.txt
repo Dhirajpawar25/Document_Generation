@@ -1,0 +1,65 @@
+01 Affidavit Format Explained
+Affidavit in Reply — Bombay High Court, writ matter, short reply
+Dated: 05-09-2026
+An Affidavit in Reply is a sworn statement filed by a respondent to answer and oppose a petition. It denies the petitioner's case, states the respondent's
+version, and asks the Court to dismiss the petition. It follows a fixed skeleton, and almost every sentence uses a set phrase.
+1. The ten parts
+All ten appear, in this order. None are optional.
+# Part Form Rules
+1 Forum heading IN THE HIGH COURT OF JUDICATURE AT [CITY] First line. Bold, caps, centred.
+2 Jurisdiction [TYPE] JURISDICTION Bold, caps, centred. Always ends with the word JURISDICTION. E.g.
+Civil Appellate; Ordinary Original Civil.
+3 Case number [PROCEEDING] NO. [NUMBER] OF [YEAR] Bold, caps, centred. NO. and OF are fixed words.
+4 Cause title Names left, status tags right Tags begin with three dots: ...Petitioner, ...Respondent
+No.1. VERSUS on its own centred line. Respondents numbered 1.,
+2., 3.
+5 Affidavit title AFFIDAVIT IN REPLY ON BEHALF OF RESPONDENT NO. Bold, caps, centred. Always carries the respondent number.
+[N]
+6 Deponent clause I, [NAME], ... do hereby solemnly affirm and One sentence, not numbered. See the deponent rule below.
+state as under:
+7 Numbered paragraphs 1. 2. 3. ... Number bold, then full stop. One continuous sequence. Prayer is
+not part of it.
+8 Prayer (a) (b) (c) Heading PRAYER bold caps. Letters bold. Lettered, never
+numbered with the body.
+9 Jurat Solemnly affirmed at [PLACE] / On this [Nth] day DEPONENT right, caps. Before Me left. Verb must match Part 6.
+of [Month] [Year]
+10 Verification ... contents of paragraphs 1 to [N] and the Heading bold caps. Range must match the actual body count.
+Prayer ... Place and date repeat the jurat.
+2. Deponent rule (Part 6)
+Respondent is a person → that person deposes: “the Respondent No.2 above named”.
+Respondent is a company or authority → an officer deposes for it: “the [designation] of the Respondent No.2 above named”. Never write “I am the
+Respondent No.2” for an organisation.
+Verb agreement: solemnly affirm → Solemnly affirmed; swear and affirm → Sworn.
+3. Paragraph sequence (Part 7)
+Para Move Opening words
+1 Identity and perusal “I say that I am the Respondent No.__ in the above Writ Petition and am well acquainted with the facts and
+circumstances of the case...”
+2 Blanket denial “At the outset, I deny each and every allegation, contention and submission made in the Writ Petition, save and
+except those specifically admitted herein...”
+3 Preliminary position “I say that the Petitioner has suppressed material facts... The action complained of has been taken strictly in
+accordance with law...”
+4 onward Substantive answers “With reference to the averments made in the Petition, I say that the same are false, incorrect and denied...” — one
+paragraph per point answered
+Last Closing “In the premises aforesaid, I say that the Writ Petition deserves to be dismissed with costs.”
+4. Fixed phrases
+Used in Phrase
+Deponent clause the Respondent No.__ above named · do hereby solemnly affirm and state as under:
+Paragraph 1 am well acquainted with the facts and circumstances of the case · I have perused the Petition and the documents
+annexed thereto · am competent to affirm this Affidavit in Reply
+Blanket denial At the outset, I deny each and every allegation, contention and submission · save and except those specifically admitted
+herein · misconceived, devoid of merits and is liable to be dismissed in limine
+Preliminary position has suppressed material facts · strictly in accordance with law and after following due procedure · No legal, constitutional
+or fundamental right... has been infringed
+Substantive answer With reference to the averments made in the Petition · the same are false, incorrect and denied · has failed to make out
+any case warranting interference · the extraordinary writ jurisdiction of this Hon'ble Court
+Closing In the premises aforesaid · deserves to be dismissed with costs
+Prayer I therefore respectfully pray that this Hon'ble Court may be pleased to: · grant such other and further reliefs as this
+Hon'ble Court may deem fit and proper
+Verification true and correct to my knowledge and belief · nothing material has been concealed therefrom
+Date format: ordinal day + month + year — 5th day of September 2026.
+5. Formatting
+Element Format
+Forum heading, jurisdiction, case number, affidavit title Bold, ALL CAPS, centred
+PRAYER, VERIFICATION headings Bold, ALL CAPS, centred
+Cause title party names Normal, left
+Status tags (...Petitioner) Right-aligned

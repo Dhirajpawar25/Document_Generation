@@ -1,0 +1,45 @@
+{
+  "overall_score": 100,
+  "scores": {
+    "Entity Accuracy": 100,
+    "Completeness": 100,
+    "Structure": 100,
+    "Consistency": 100,
+    "Template Fidelity": 100,
+    "Hallucination Check": 100
+  },
+  "issues": [],
+  "checks": [
+    {
+      "dimension": "Entity Accuracy",
+      "passed": true,
+      "evidence": "All supplied party, deponent, date and exhibit values appear in the output."
+    },
+    {
+      "dimension": "Completeness",
+      "passed": true,
+      "evidence": "Required affidavit sections are present."
+    },
+    {
+      "dimension": "Structure",
+      "passed": true,
+      "evidence": "Detected body numbering: [1, 2, 3, 4, 5, 6, 7]."
+    },
+    {
+      "dimension": "Consistency",
+      "passed": true,
+      "evidence": "Answering respondent references use Respondent No. 2 throughout."
+    },
+    {
+      "dimension": "Template Fidelity",
+      "passed": true,
+      "evidence": "Prayer is lettered and the exhibit follows the reference convention."
+    },
+    {
+      "dimension": "Hallucination Check",
+      "passed": true,
+      "evidence": "No new statutory provision was introduced; names are constrained to supplied facts."
+    }
+  ],
+  "reference_paragraph_count": 7
+}
