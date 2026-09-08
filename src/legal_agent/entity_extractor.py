@@ -6,6 +6,7 @@ from typing import Any, Dict
 def extract_case_entities(case_text: str) -> Dict[str, Any]:
 	"""Extract the known case schema without inventing legal facts."""
 	lines = [line.strip() for line in case_text.splitlines() if line.strip()]
+	normalized_case = re.sub(r"\s+", " ", case_text)
 
 	def line_value(prefix: str) -> str:
 		for line in lines:
@@ -28,11 +29,12 @@ def extract_case_entities(case_text: str) -> Dict[str, Any]:
 
 	communication_match = re.search(
 		r"communication dated\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})",
-		case_text,
+		normalized_case,
 		re.IGNORECASE,
 	)
 	exhibit_match = re.search(r"EXHIBIT[- ]['‘\"�]?([A-Z])", case_text, re.IGNORECASE)
 	prayer_match = re.search(r"4\.\s+Prayer\s+(.+?)(?:\n5\.\s+Attestation|\Z)", case_text, re.IGNORECASE | re.DOTALL)
+	date_match = re.search(r"\bDate\s*:?\s*(\d{1,2}\s+[A-Za-z]+\s+\d{4})", normalized_case, re.IGNORECASE)
 
 	return {
 		"document_type": line_value("Document Type"),
@@ -51,7 +53,7 @@ def extract_case_entities(case_text: str) -> Dict[str, Any]:
 		"address": line_value("Address"),
 		"verification_verb": line_value("Verification verb"),
 		"place": line_value("Place"),
-		"date": line_value("Date"),
+		"date": date_match.group(1) if date_match else line_value("Date"),
 		"advocate_firm": line_value("Advocate Firm"),
 		"acting_for": line_value("Acting for"),
 		"communication_date": communication_match.group(1) if communication_match else "",

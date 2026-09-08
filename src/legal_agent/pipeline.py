@@ -17,7 +17,8 @@ OUTPUTS = ROOT / "outputs"
 
 
 def _ordinal(day: str) -> str:
-    parsed = datetime.strptime(day, "%d %B %Y")
+    normalized_day = " ".join(day.replace(",", " ").split())
+    parsed = datetime.strptime(normalized_day, "%d %B %Y")
     number = parsed.day
     suffix = "th" if 10 < number % 100 < 14 else {1: "st", 2: "nd", 3: "rd"}.get(number % 10, "th")
     return f"{number}{suffix} day of {parsed.strftime('%B %Y')}"
