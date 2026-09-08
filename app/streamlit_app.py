@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.legal_agent.document_loader import load_document
 from src.legal_agent.pipeline import OUTPUTS, run_pipeline
 
 st.set_page_config(page_title="Affidavit in Reply Agent", page_icon="A", layout="wide")
@@ -60,9 +61,17 @@ with st.sidebar:
     st.divider()
     st.markdown('<div class="eyebrow">01 / Source documents</div>', unsafe_allow_html=True)
     use_demo = st.checkbox("Use supplied assignment files", value=True)
-    reference_upload = st.file_uploader("Reference document text", type=["txt"])
-    case_upload = st.file_uploader("Case information text", type=["txt"])
-    st.caption("Use the supplied demo files or upload both text files using the labeled case schema.")
+    reference_upload = st.file_uploader(
+        "Reference document",
+        type=["txt", "pdf", "docx"],
+        help="Accepted formats: TXT, PDF, and DOCX.",
+    )
+    case_upload = st.file_uploader(
+        "Case information",
+        type=["txt", "pdf", "docx"],
+        help="Accepted formats: TXT, PDF, and DOCX.",
+    )
+    st.caption("Upload both documents. PDFs must contain selectable text; scanned PDFs need OCR.")
     st.divider()
     st.markdown('<div class="eyebrow">02 / Workflow</div>', unsafe_allow_html=True)
     st.markdown(
@@ -82,19 +91,33 @@ st.markdown(
 )
 
 if use_demo or not (reference_upload and case_upload):
-    reference_text = (ROOT / "data" / "text" / "02_sample.txt").read_text(encoding="utf-8")
-    case_text = (ROOT / "data" / "text" / "03_case.txt").read_text(encoding="utf-8")
-    source_label = "Supplied assignment documents"
+    if use_demo:
+        reference_text = (ROOT / "data" / "text" / "02_sample.txt").read_text(encoding="utf-8")
+        case_text = (ROOT / "data" / "text" / "03_case.txt").read_text(encoding="utf-8")
+        source_label = "Supplied assignment documents"
+        upload_ready = True
+    else:
+        reference_text = ""
+        case_text = ""
+        source_label = "Upload both source documents to continue"
+        upload_ready = False
 else:
-    reference_text = reference_upload.getvalue().decode("utf-8")
-    case_text = case_upload.getvalue().decode("utf-8")
-    source_label = "Uploaded documents"
+    try:
+        reference_text = load_document(reference_upload)
+        case_text = load_document(case_upload)
+        source_label = f"Uploaded documents · {reference_upload.name} + {case_upload.name}"
+        upload_ready = True
+    except ValueError as error:
+        reference_text = ""
+        case_text = ""
+        source_label = str(error)
+        upload_ready = False
 
 source_col, action_col = st.columns([2.5, 1], vertical_alignment="bottom")
 with source_col:
     st.markdown(f'<div class="panel"><div class="panel-title">Ready to process</div><span style="color:#56657a">{source_label} · Reference structure and case facts will be checked before generation.</span></div>', unsafe_allow_html=True)
 with action_col:
-    generate = st.button("Generate draft", type="primary", use_container_width=True)
+    generate = st.button("Generate draft", type="primary", use_container_width=True, disabled=not upload_ready)
 
 if generate:
     try:

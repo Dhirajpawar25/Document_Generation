@@ -19,6 +19,11 @@ These cases are designed for manual execution through Streamlit and for direct p
 | TC-13 | Hallucination guard | Add a statutory provision not present in the supplied facts | Hallucination check fails or flags the suspicious statutory language |
 | TC-14 | Date and verification output | Run TC-01 | The jurat and verification use Mumbai and 5th day of September 2026 and the verification range matches seven body paragraphs |
 | TC-15 | Render deployment smoke test | Open the Render URL, run TC-01, and download DOCX | Service loads, generation completes, and downloads are available after a possible cold start |
+| TC-16 | Upload TXT sources | Disable demo mode and upload the supplied `.txt` files | Both files load and generation matches the baseline result |
+| TC-17 | Upload PDF sources | Disable demo mode and upload selectable-text PDF reference and case files | Text is extracted and the pipeline generates a validated affidavit |
+| TC-18 | Upload DOCX sources | Disable demo mode and upload DOCX reference and case files | Paragraph and table text is extracted and the pipeline generates a validated affidavit |
+| TC-19 | Upload scanned PDF | Upload an image-only PDF | Generation remains disabled and the UI explains that OCR is required |
+| TC-20 | Upload only one source | Disable demo mode and upload only one document | Generation remains disabled until both reference and case documents are provided |
 
 ## Post-run checks
 
