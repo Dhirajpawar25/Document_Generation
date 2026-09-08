@@ -1,73 +1,57 @@
 {
   "entities": {
     "document_type": "Affidavit in Reply",
-    "court": "IN THE HIGH COURT OF JUDICATURE AT BOMBAY",
-    "jurisdiction": "ORDINARY ORIGINAL CIVIL JURISDICTION",
+    "court": "",
+    "jurisdiction": "",
     "proceeding_type": "WRIT PETITION",
-    "case_number": "1847",
-    "year": "2026",
-    "petitioner": "Sunrise Housing Private Limited",
-    "respondent_1": "State of Maharashtra",
-    "respondent_2": "Mumbai Metropolitan Region Development Authority",
+    "case_number": "563 (Year: 2027)",
+    "year": "",
+    "petitioner": "[Omitted / Missing]",
+    "respondent_1": "",
+    "respondent_2": ": Delhi Urban Development Authority",
     "respondent_number": "2",
-    "deponent": "Arvind Rajan",
-    "designation": "Deputy Metropolitan Commissioner",
-    "organisation": "Mumbai Metropolitan Region Development Authority",
-    "address": "Bandra East, Mumbai, Maharashtra",
-    "verification_verb": "solemnly affirm",
-    "place": "Mumbai",
-    "date": "5 September 2026",
-    "advocate_firm": "Rajan & Associates",
-    "acting_for": "Respondent No. 2",
-    "communication_date": "15 July 2026",
-    "exhibit": "EXHIBIT-‘A’",
-    "prayer_text": "● Respondent No. 2 prays that the Writ Petition be dismissed with costs.",
+    "deponent": "",
+    "designation": ": Deputy Director",
+    "organisation": ": Delhi Urban Development Authority",
+    "address": ": Civil Lines, Delhi",
+    "verification_verb": "",
+    "place": "",
+    "date": "22 September 2027",
+    "advocate_firm": "Khanna Legal Chambers (Acting for: Respondent No. 2)",
+    "acting_for": "",
+    "communication_date": "22 September 2027",
+    "exhibit": "EXHIBIT-‘M’",
+    "prayer_text": "",
     "reply_points": [
       {
         "number": 1,
         "title": "Filing of Affidavit in Reply",
-        "facts": [
-          "The deponent has perused a copy of the Writ Petition filed by Sunrise Housing Private",
-          "The deponent is filing this Affidavit in Reply on behalf of Respondent No. 2, Mumbai"
-        ]
+        "facts": []
       },
       {
         "number": 2,
         "title": "General Denial",
-        "facts": [
-          "Respondent No. 2 denies all statements, contentions and averments made in the Writ",
-          "Nothing contained in the Writ Petition that has not been specifically dealt with or"
-        ]
+        "facts": []
       },
       {
         "number": 3,
         "title": "Preliminary Position",
-        "facts": [
-          "The Writ Petition is misconceived and devoid of merits.",
-          "The actions challenged by the Petitioner were taken in accordance with the applicable"
-        ]
-      },
-      {
-        "number": 4,
-        "title": "Denial Regarding the Communication",
-        "facts": [
-          "Respondent No. 2 denies that the impugned communication dated 15 July 2026 was"
-        ]
+        "facts": []
       },
       {
         "number": 5,
-        "title": "Authority for the Communication",
-        "facts": [
-          "The communication dated 15 July 2026 was issued pursuant to the applicable"
-        ]
+        "title": "Denial Regarding Communication (Numbering Anomaly)",
+        "facts": []
       },
       {
         "number": 6,
+        "title": "Authority for Communication",
+        "facts": []
+      },
+      {
+        "number": 7,
         "title": "Document Relied Upon",
-        "facts": [
-          "Respondent No. 2 relies upon the communication dated 15 July 2026.",
-          "A copy of that communication is to be annexed and marked as EXHIBIT-‘A’."
-        ]
+        "facts": []
       }
     ]
   },
@@ -103,7 +87,7 @@
       "case_number": true,
       "cause_title_petitioner": true,
       "versus": true,
-      "cause_title_respondent": true,
+      "cause_title_respondent": false,
       "affidavit_title": true,
       "deponent_clause": true,
       "numbered_paragraph": true,
@@ -136,12 +120,12 @@
   },
   "mapping": {
     "body_paragraphs": [
-      "I say that I am the Deputy Metropolitan Commissioner of Mumbai Metropolitan Region Development Authority, the Respondent No.2 in the above Writ Petition, and am well acquainted with the facts and circumstances of the case. I have perused a copy of the Writ Petition filed by Sunrise Housing Private Limited and am competent to affirm this Affidavit in Reply. I am filing this Affidavit in Reply on behalf of Respondent No.2, Mumbai Metropolitan Region Development Authority, to oppose the contentions raised in the Writ Petition and the reliefs sought by the Petitioner.",
+      "I say that I am the : Deputy Director of : Delhi Urban Development Authority, the Respondent No.2 in the above Writ Petition, and am well acquainted with the facts and circumstances of the case. I have perused a copy of the Writ Petition filed by [Omitted / Missing] and am competent to affirm this Affidavit in Reply. I am filing this Affidavit in Reply on behalf of Respondent No.2, : Delhi Urban Development Authority, to oppose the contentions raised in the Writ Petition and the reliefs sought by the Petitioner.",
       "At the outset, I deny each and every allegation, contention and submission made in the Writ Petition, save and except those specifically admitted herein. Respondent No.2 denies all statements, contentions and averments made in the Writ Petition except those specifically admitted in this Affidavit in Reply. Nothing contained in the Writ Petition that has not been specifically dealt with or admitted is to be treated as an admission by Respondent No.2.",
       "I say that the Writ Petition is misconceived and devoid of merits. The actions challenged by the Petitioner were taken in accordance with the applicable redevelopment procedure and within the authority available to Respondent No.2. The action complained of has been taken strictly in accordance with law and after following due procedure.",
-      "With reference to the averments made in the Petition, I say that Respondent No.2 denies that the impugned communication dated 15 July 2026 was issued without authority. The said contention is false, incorrect and denied.",
-      "I say that the communication dated 15 July 2026 was issued pursuant to the applicable redevelopment procedure and after consideration of the relevant records.",
-      "I say that Respondent No.2 relies upon the communication dated 15 July 2026. Hereto annexed and marked as EXHIBIT-‘A’ is a copy of the said communication.",
+      "With reference to the averments made in the Petition, I say that Respondent No.2 denies that the impugned communication dated 22 September 2027 was issued without authority. The said contention is false, incorrect and denied.",
+      "I say that the communication dated 22 September 2027 was issued pursuant to the applicable redevelopment procedure and after consideration of the relevant records.",
+      "I say that Respondent No.2 relies upon the communication dated 22 September 2027. Hereto annexed and marked as EXHIBIT-‘M’ is a copy of the said communication.",
       "In the premises aforesaid, I say that the Writ Petition deserves to be dismissed with costs."
     ],
     "prayer": [

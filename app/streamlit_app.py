@@ -61,6 +61,14 @@ st.markdown(
         --green: #0f766e;
     }
     .stApp { background: var(--canvas); }
+    ::-webkit-scrollbar { width: 11px; height: 11px; }
+    ::-webkit-scrollbar-track { background: #e3e8ef; border-radius: 8px; }
+    ::-webkit-scrollbar-thumb { background: #8b98aa; border: 2px solid #e3e8ef; border-radius: 8px; }
+    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    [data-testid="stSidebar"] ::-webkit-scrollbar-track { background: #d7dee8; }
+    [data-testid="stSidebar"] ::-webkit-scrollbar-thumb { background: #738197; border-color: #d7dee8; }
+    [data-testid="stSidebar"] ::-webkit-scrollbar-thumb:hover { background: #526176; }
+    * { scrollbar-color: #8b98aa #e3e8ef; scrollbar-width: thin; }
     [data-testid="stHeader"] { background: rgba(245,247,250,.92); }
     [data-testid="stSidebar"] { background: #eef2f6; border-right: 1px solid var(--line); }
     [data-testid="stSidebar"] > div:first-child { padding-top: 2rem; }
@@ -98,7 +106,13 @@ st.markdown(
     .doc-spacer { height: .65rem; }
     .stButton > button[kind="primary"] { border-radius: 8px; font-weight: 700; min-height: 2.7rem; }
     .stDownloadButton > button { border: 1px solid var(--line); border-radius: 8px; font-weight: 650; }
-    div[data-testid="stMetric"] { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: .75rem 1rem; }
+    div[data-testid="stMetric"] { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: .75rem 1rem; }
+    div[data-testid="stMetric"] [data-testid="stMetricLabel"] { color: #334155 !important; font-weight: 700; }
+    div[data-testid="stMetric"] [data-testid="stMetricValue"] { color: #17243a !important; font-weight: 800; }
+    div[data-testid="stMetric"] [data-testid="stMetricDelta"] { color: #334155 !important; }
+    div[data-testid="stAlert"] { background: #fff7ed; border: 1px solid #fdba74; border-left: 4px solid #ea580c; }
+    div[data-testid="stAlert"] [data-testid="stMarkdownContainer"],
+    div[data-testid="stAlert"] [data-testid="stMarkdownContainer"] p { color: #7c2d12 !important; font-weight: 650; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -174,12 +188,21 @@ with action_col:
 
 if generate:
     try:
+        status = st.status("Generating affidavit...", expanded=True)
+        status.write("Reading reference and case documents...")
+        status.write("Extracting case entities and reference structure...")
+        status.write("Mapping reply points into the affidavit format...")
+        status.write("Rendering document and running validation checks...")
         result = run_pipeline(reference_text, case_text)
         report = result["report"]
         st.session_state["result"] = result
         st.session_state["run_message"] = f"Draft generated and validated at {report['overall_score']}/100."
         st.session_state["run_failed"] = False
+        status.update(label="Generation complete", state="complete", expanded=False)
+        st.toast("Generation complete", icon="✅")
     except Exception as error:
+        if "status" in locals():
+            status.update(label="Generation failed", state="error", expanded=True)
         st.session_state["run_message"] = f"Pipeline failed: {error}"
         st.session_state["run_failed"] = True
 
@@ -188,7 +211,7 @@ if st.session_state.get("run_message"):
     if st.session_state.get("run_failed"):
         st.error(st.session_state["run_message"])
     else:
-        st.success(st.session_state["run_message"])
+        st.success(f"✅ Generation complete · {st.session_state['run_message']}")
 
 if result:
     report = result["report"]

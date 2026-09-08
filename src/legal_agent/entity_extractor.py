@@ -28,13 +28,26 @@ def extract_case_entities(case_text: str) -> Dict[str, Any]:
 			points.append({"number": int(match.group(1)), "title": match.group(2), "facts": bullets})
 
 	communication_match = re.search(
-		r"communication dated\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})",
+		r"communication dated\s+(\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+\d{4})",
 		normalized_case,
 		re.IGNORECASE,
 	)
 	exhibit_match = re.search(r"EXHIBIT[- ]['‘\"�]?([A-Z])", case_text, re.IGNORECASE)
 	prayer_match = re.search(r"4\.\s+Prayer\s+(.+?)(?:\n5\.\s+Attestation|\Z)", case_text, re.IGNORECASE | re.DOTALL)
-	date_match = re.search(r"\bDate\s*:?\s*(\d{1,2}\s+[A-Za-z]+\s+\d{4})", normalized_case, re.IGNORECASE)
+	date_match = re.search(
+		r"\bDate\s*:?\s*(\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+\d{4})",
+		normalized_case,
+		re.IGNORECASE,
+	)
+	if not date_match:
+		date_candidates = re.findall(
+			r"\b(\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+\d{4})\b",
+			normalized_case,
+			re.IGNORECASE,
+		)
+		date_value = date_candidates[-1] if date_candidates else ""
+	else:
+		date_value = date_match.group(1)
 
 	return {
 		"document_type": line_value("Document Type"),
@@ -53,7 +66,7 @@ def extract_case_entities(case_text: str) -> Dict[str, Any]:
 		"address": line_value("Address"),
 		"verification_verb": line_value("Verification verb"),
 		"place": line_value("Place"),
-		"date": date_match.group(1) if date_match else line_value("Date"),
+		"date": date_value or line_value("Date"),
 		"advocate_firm": line_value("Advocate Firm"),
 		"acting_for": line_value("Acting for"),
 		"communication_date": communication_match.group(1) if communication_match else "",

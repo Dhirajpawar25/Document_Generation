@@ -18,7 +18,14 @@ OUTPUTS = ROOT / "outputs"
 
 def _ordinal(day: str) -> str:
     normalized_day = " ".join(day.replace(",", " ").split())
-    parsed = datetime.strptime(normalized_day, "%d %B %Y")
+    normalized_day = re.sub(r"(\d{1,2})(st|nd|rd|th)\b", r"\1", normalized_day, flags=re.IGNORECASE)
+    try:
+        parsed = datetime.strptime(normalized_day, "%d %B %Y")
+    except ValueError as error:
+        raise ValueError(
+            f"Case information must contain a valid attestation date "
+            f"(for example, '12 October 2027'); received: {day or 'missing'}."
+        ) from error
     number = parsed.day
     suffix = "th" if 10 < number % 100 < 14 else {1: "st", 2: "nd", 3: "rd"}.get(number % 10, "th")
     return f"{number}{suffix} day of {parsed.strftime('%B %Y')}"
