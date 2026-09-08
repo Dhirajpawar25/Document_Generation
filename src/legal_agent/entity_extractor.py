@@ -14,7 +14,7 @@ def extract_case_entities(case_text: str) -> Dict[str, Any]:
 		return ""
 
 	points = []
-	point_pattern = re.compile(r"Point\s+(\d+)\s+—\s+(.+)", re.IGNORECASE)
+	point_pattern = re.compile(r"Point\s+(\d+)\s+[—-]\s+(.+)", re.IGNORECASE)
 	for index, line in enumerate(lines):
 		match = point_pattern.match(line)
 		if match:
@@ -25,6 +25,14 @@ def extract_case_entities(case_text: str) -> Dict[str, Any]:
 				if following.startswith("●"):
 					bullets.append(following.lstrip("● "))
 			points.append({"number": int(match.group(1)), "title": match.group(2), "facts": bullets})
+
+	communication_match = re.search(
+		r"communication dated\s+(\d{1,2}\s+[A-Za-z]+\s+\d{4})",
+		case_text,
+		re.IGNORECASE,
+	)
+	exhibit_match = re.search(r"EXHIBIT[- ]['‘\"�]?([A-Z])", case_text, re.IGNORECASE)
+	prayer_match = re.search(r"4\.\s+Prayer\s+(.+?)(?:\n5\.\s+Attestation|\Z)", case_text, re.IGNORECASE | re.DOTALL)
 
 	return {
 		"document_type": line_value("Document Type"),
@@ -46,8 +54,8 @@ def extract_case_entities(case_text: str) -> Dict[str, Any]:
 		"date": line_value("Date"),
 		"advocate_firm": line_value("Advocate Firm"),
 		"acting_for": line_value("Acting for"),
-		"communication_date": "15 July 2026",
-		"exhibit": "EXHIBIT-‘A’",
+		"communication_date": communication_match.group(1) if communication_match else "",
+		"exhibit": f"EXHIBIT-‘{exhibit_match.group(1).upper()}’" if exhibit_match else "",
+		"prayer_text": prayer_match.group(1).strip() if prayer_match else "",
 		"reply_points": points,
 	}
-

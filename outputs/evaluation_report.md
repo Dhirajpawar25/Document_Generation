@@ -7,6 +7,8 @@
 - **Structure:** 100/100
 - **Consistency:** 100/100
 - **Template Fidelity:** 100/100
+- **Reference Contract:** 100/100
+- **Input Coverage:** 100/100
 - **Hallucination Check:** 100/100
 
 ## Issues Detected

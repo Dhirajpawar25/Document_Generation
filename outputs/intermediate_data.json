@@ -21,6 +21,7 @@
     "acting_for": "Respondent No. 2",
     "communication_date": "15 July 2026",
     "exhibit": "EXHIBIT-‘A’",
+    "prayer_text": "● Respondent No. 2 prays that the Writ Petition be dismissed with costs.",
     "reply_points": [
       {
         "number": 1,
@@ -104,7 +105,7 @@
       "versus": true,
       "cause_title_respondent": true,
       "affidavit_title": true,
-      "deponent_clause": false,
+      "deponent_clause": true,
       "numbered_paragraph": true,
       "prayer_heading": true,
       "prayer_item": true,
@@ -113,7 +114,7 @@
       "before_me": true,
       "deponent_signature": true,
       "verification_heading": true,
-      "verification_clause": false,
+      "verification_clause": true,
       "verification_date": true,
       "advocate_block": true
     },

@@ -55,12 +55,12 @@ Open the local URL printed by Streamlit. The default demo uses `data/text/02_sam
 
 The working link and video demo link should be added here before submission:
 
-- Working link: `TODO - add deployed Render URL`
+- Working link: https://document-generation-4a8k.onrender.com/
 - Video link: `TODO - add Loom or Google Drive URL`
 
 ## Evaluation
 
-Each of six dimensions receives 100 when its deterministic checks pass and 50 when they fail. The overall score is the arithmetic mean. Checks include required entity presence, required sections, continuous body numbering, answering-respondent consistency, lettered prayer and exhibit conventions, and a constrained statutory hallucination check. The report includes evidence for each check and an issue list.
+Each of eight dimensions receives 100 when its deterministic checks pass and 50 when they fail. The overall score is the arithmetic mean. Checks include required entity presence, required sections, continuous body numbering, answering-respondent consistency, lettered prayer and exhibit conventions, reference-contract completeness, reply-point coverage, and a constrained legal-citation hallucination check. The report includes evidence for each check and an issue list.
 
 ## Design decisions and limitations
 

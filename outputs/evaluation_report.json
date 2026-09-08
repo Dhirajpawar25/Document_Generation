@@ -6,6 +6,8 @@
     "Structure": 100,
     "Consistency": 100,
     "Template Fidelity": 100,
+    "Reference Contract": 100,
+    "Input Coverage": 100,
     "Hallucination Check": 100
   },
   "issues": [],
@@ -13,17 +15,17 @@
     {
       "dimension": "Entity Accuracy",
       "passed": true,
-      "evidence": "All supplied party, deponent, date and exhibit values appear in the output."
+      "evidence": "All required case entities are present in the generated output."
     },
     {
       "dimension": "Completeness",
       "passed": true,
-      "evidence": "Required affidavit sections are present."
+      "evidence": "Missing sections: none."
     },
     {
       "dimension": "Structure",
       "passed": true,
-      "evidence": "Detected body numbering: [1, 2, 3, 4, 5, 6, 7]."
+      "evidence": "Detected body numbering: [1, 2, 3, 4, 5, 6, 7]; expected: [1, 2, 3, 4, 5, 6, 7]."
     },
     {
       "dimension": "Consistency",
@@ -33,12 +35,22 @@
     {
       "dimension": "Template Fidelity",
       "passed": true,
-      "evidence": "Prayer is lettered and the exhibit follows the reference convention."
+      "evidence": "Prayer is lettered a, b, c and the supplied exhibit convention is present."
+    },
+    {
+      "dimension": "Reference Contract",
+      "passed": true,
+      "evidence": "Missing reference elements: none."
+    },
+    {
+      "dimension": "Input Coverage",
+      "passed": true,
+      "evidence": "Reply point numbers: [1, 2, 3, 4, 5, 6]; each point has facts: True."
     },
     {
       "dimension": "Hallucination Check",
       "passed": true,
-      "evidence": "No new statutory provision was introduced; names are constrained to supplied facts."
+      "evidence": "Un supplied legal citation patterns detected: none."
     }
   ],
   "reference_paragraph_count": 7

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
@@ -16,9 +17,10 @@ OUTPUTS = ROOT / "outputs"
 
 
 def _ordinal(day: str) -> str:
-    number = int(day.split()[0])
+    parsed = datetime.strptime(day, "%d %B %Y")
+    number = parsed.day
     suffix = "th" if 10 < number % 100 < 14 else {1: "st", 2: "nd", 3: "rd"}.get(number % 10, "th")
-    return f"{number}{suffix} day of September 2026"
+    return f"{number}{suffix} day of {parsed.strftime('%B %Y')}"
 
 
 def _facts(entity: Dict[str, Any], number: int) -> str:
@@ -28,9 +30,11 @@ def _facts(entity: Dict[str, Any], number: int) -> str:
 def map_content(entity: Dict[str, Any]) -> Dict[str, Any]:
     """Map supplied facts to the reference's fixed reply moves."""
     respondent = f"Respondent No.{entity['respondent_number']}"
+    if len(entity["reply_points"]) < 6:
+        raise ValueError("Case information must contain six numbered reply points.")
     return {
         "body_paragraphs": [
-            f"I say that I am the Deputy Metropolitan Commissioner of {entity['organisation']}, the {respondent} in the above Writ Petition, and am well acquainted with the facts and circumstances of the case. I have perused a copy of the Writ Petition filed by {entity['petitioner']} and am competent to affirm this Affidavit in Reply. I am filing this Affidavit in Reply on behalf of {respondent}, {entity['organisation']}, to oppose the contentions raised in the Writ Petition and the reliefs sought by the Petitioner.",
+            f"I say that I am the {entity['designation']} of {entity['organisation']}, the {respondent} in the above Writ Petition, and am well acquainted with the facts and circumstances of the case. I have perused a copy of the Writ Petition filed by {entity['petitioner']} and am competent to affirm this Affidavit in Reply. I am filing this Affidavit in Reply on behalf of {respondent}, {entity['organisation']}, to oppose the contentions raised in the Writ Petition and the reliefs sought by the Petitioner.",
             f"At the outset, I deny each and every allegation, contention and submission made in the Writ Petition, save and except those specifically admitted herein. {respondent} denies all statements, contentions and averments made in the Writ Petition except those specifically admitted in this Affidavit in Reply. Nothing contained in the Writ Petition that has not been specifically dealt with or admitted is to be treated as an admission by {respondent}.",
             f"I say that the Writ Petition is misconceived and devoid of merits. The actions challenged by the Petitioner were taken in accordance with the applicable redevelopment procedure and within the authority available to {respondent}. The action complained of has been taken strictly in accordance with law and after following due procedure.",
             f"With reference to the averments made in the Petition, I say that {respondent} denies that the impugned communication dated {entity['communication_date']} was issued without authority. The said contention is false, incorrect and denied.",
@@ -68,19 +72,75 @@ def render_text(entity: Dict[str, Any], mapped: Dict[str, Any]) -> str:
 
 def evaluate(document: str, entity: Dict[str, Any], template: Dict[str, Any]) -> Dict[str, Any]:
     checks: List[Tuple[str, bool, str]] = []
-    required_entities = [entity["petitioner"], entity["respondent_2"], entity["deponent"], entity["designation"], entity["communication_date"], entity["exhibit"]]
-    checks.append(("Entity Accuracy", all(value in document for value in required_entities), "All supplied party, deponent, date and exhibit values appear in the output."))
+    required_fields = {
+        "petitioner": entity.get("petitioner", ""),
+        "respondent_2": entity.get("respondent_2", ""),
+        "deponent": entity.get("deponent", ""),
+        "designation": entity.get("designation", ""),
+        "organisation": entity.get("organisation", ""),
+        "communication_date": entity.get("communication_date", ""),
+        "exhibit": entity.get("exhibit", ""),
+    }
+    missing_fields = [name for name, value in required_fields.items() if not value]
+    entity_values_present = not missing_fields and all(value in document for value in required_fields.values())
+    entity_evidence = "All required case entities are present in the generated output."
+    if missing_fields:
+        entity_evidence = f"Missing required case fields: {', '.join(missing_fields)}."
+    checks.append(("Entity Accuracy", entity_values_present, entity_evidence))
+
     required_sections = ["PRAYER", "VERIFICATION", "Solemnly affirmed", "Before Me", "DEPONENT"]
-    checks.append(("Completeness", all(section in document for section in required_sections), "Required affidavit sections are present."))
-    body = document.split("state as under:", 1)[1].split("PRAYER", 1)[0]
+    missing_sections = [section for section in required_sections if section not in document]
+    checks.append(("Completeness", not missing_sections, f"Missing sections: {', '.join(missing_sections) or 'none'}."))
+
+    body_match = re.search(r"state as under:\s*(.*?)\s*PRAYER", document, re.DOTALL)
+    body = body_match.group(1) if body_match else ""
     numbers = [int(value) for value in re.findall(r"(?m)^(\d+)\.\s", body)]
-    checks.append(("Structure", numbers == list(range(1, 8)), f"Detected body numbering: {numbers}."))
+    expected_numbers = list(range(1, len(entity.get("reply_points", [])) + 2))
+    checks.append(("Structure", bool(body_match) and numbers == expected_numbers, f"Detected body numbering: {numbers}; expected: {expected_numbers}."))
+
     answer_references = re.findall(r"Respondent No\.?\s*([23])", document, re.IGNORECASE)
     checks.append(("Consistency", bool(answer_references) and set(answer_references) == {"2"}, "Answering respondent references use Respondent No. 2 throughout."))
-    checks.append(("Template Fidelity", "(a)" in document and "(b)" in document and "(c)" in document and "EXHIBIT-" in document, "Prayer is lettered and the exhibit follows the reference convention."))
-    supplied_values = set(required_entities + [entity["court"], entity["jurisdiction"], entity["advocate_firm"]])
-    suspicious = [word for word in re.findall(r"\b[A-Z][A-Za-z]+(?:\s+[A-Z][A-Za-z]+)*\b", document) if word not in supplied_values and word not in {"IN", "THE", "HIGH", "COURT", "OF", "AT", "BOMBAY", "CIVIL", "APPELLATE", "ORDINARY", "ORIGINAL", "WRIT", "PETITION", "NO", "AFFIDAVIT", "REPLY", "ON", "BEHALF", "RESPONDENT", "PRAYER", "VERIFICATION", "DEPONENT", "Before", "Me", "EXHIBIT", "Advocates", "State", "Maharashtra"}]
-    checks.append(("Hallucination Check", not any("statut" in item.lower() for item in suspicious), "No new statutory provision was introduced; names are constrained to supplied facts."))
+    prayer_ok = all(f"({letter})" in document for letter in "abc")
+    exhibit_ok = bool(entity.get("exhibit")) and entity["exhibit"] in document
+    checks.append(("Template Fidelity", prayer_ok and exhibit_ok, "Prayer is lettered a, b, c and the supplied exhibit convention is present."))
+
+    required_template_parts = [
+        "forum_heading",
+        "jurisdiction",
+        "case_number",
+        "cause_title_petitioner",
+        "cause_title_respondent",
+        "affidavit_title",
+        "deponent_clause",
+        "prayer_heading",
+        "verification_heading",
+        "advocate_block",
+    ]
+    missing_template_parts = [
+        name for name in required_template_parts
+        if not template.get("matches", {}).get(name, False)
+    ]
+    checks.append(
+        (
+            "Reference Contract",
+            not missing_template_parts,
+            f"Missing reference elements: {', '.join(missing_template_parts) or 'none'}.",
+        )
+    )
+
+    point_numbers = [point.get("number") for point in entity.get("reply_points", [])]
+    point_facts_ok = all(point.get("facts") for point in entity.get("reply_points", []))
+    checks.append(("Input Coverage", point_numbers == list(range(1, 7)) and point_facts_ok, f"Reply point numbers: {point_numbers}; each point has facts: {point_facts_ok}."))
+
+    forbidden_patterns = [
+        r"\bsection\s+\d+[A-Za-z]?\b",
+        r"\barticle\s+\d+[A-Za-z]?\b",
+        r"\bAIR\s+\d{4}\b",
+        r"\b\d{4}\s+\(\d{4}\)\s+\w+\s+\d+\b",
+    ]
+    hallucinated = [pattern for pattern in forbidden_patterns if re.search(pattern, document, re.IGNORECASE)]
+    checks.append(("Hallucination Check", not hallucinated, f"Un supplied legal citation patterns detected: {hallucinated or 'none'}."))
+
     scores = {name: 100 if passed else 50 for name, passed, _ in checks}
     issues = [{"dimension": name, "message": explanation} for name, passed, explanation in checks if not passed]
     overall = round(sum(scores.values()) / len(scores))
